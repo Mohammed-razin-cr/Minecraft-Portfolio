@@ -5,7 +5,7 @@
 # ⚔️ 𝗠𝗜𝗡𝗘𝗖𝗥𝗔𝗙𝗧 𝗣𝗢𝗥𝗧𝗙𝗢𝗟𝗜𝗢 🛡️
 ### 𝘯𝘦𝘹𝘵-𝘨𝘦𝘯 𝘨𝘢𝘮𝘪𝘧𝘪𝘦𝘥 𝘦𝘹𝘱𝘦𝘳𝘪𝘦𝘯𝘤𝘦
 
-[![Website](https://img.shields.io/badge/Website-mohammed--razin--cr.me-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://mohammed-razin-cr.me)
+[![Website](https://img.shields.io/badge/Website-mohammed--razin--cr.tech-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://mohammed-razin-cr.tech)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
