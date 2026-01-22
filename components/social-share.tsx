@@ -37,8 +37,8 @@ const shareButtons: ShareButton[] = [
 ]
 
 export function SocialShare() {
-    const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
-    const shareTitle = "Check out this awesome Minecraft Portfolio!"
+    const shareUrl = "https://mohammed-razin-cr.tech"
+    const shareTitle = "Check out Mohammed Razin's Minecraft Portfolio! 🧱✨"
 
     const handleShare = (button: ShareButton) => {
         const url = button.getUrl(shareUrl, shareTitle)
