@@ -1,0 +1,72 @@
+
+> portfolio@0.1.0 build C:\Users\razin\Desktop\minecraft-portfolio-website
+> next build
+
+   Γû▓ Next.js 16.0.10 (Turbopack)
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 2 errors:
+./components/minecraft-block-3d.tsx:3:1
+Module not found: Can't resolve '@react-three/fiber'
+  1 | "use client"
+  2 |
+> 3 | import { Canvas } from "@react-three/fiber"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { useMemo, Suspense } from "react"
+  5 | import * as THREE from "three"
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./components/minecraft-block-3d.tsx [Client Component Browser]
+    ./components/world-sections/sky-section.tsx [Client Component Browser]
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/minecraft-block-3d.tsx [Client Component SSR]
+    ./components/world-sections/sky-section.tsx [Client Component SSR]
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/minecraft-block-3d.tsx:5:1
+Module not found: Can't resolve 'three'
+  3 | import { Canvas } from "@react-three/fiber"
+  4 | import { useMemo, Suspense } from "react"
+> 5 | import * as THREE from "three"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 |
+  7 | function MinecraftGrassBlock() {
+  8 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./components/minecraft-block-3d.tsx [Client Component Browser]
+    ./components/world-sections/sky-section.tsx [Client Component Browser]
+    ./app/page.tsx [Client Component Browser]
+    ./app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/minecraft-block-3d.tsx [Client Component SSR]
+    ./components/world-sections/sky-section.tsx [Client Component SSR]
+    ./app/page.tsx [Client Component SSR]
+    ./app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (./components/minecraft-block-3d.tsx:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/minecraft-block-3d.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+ΓÇëELIFECYCLEΓÇë Command failed with exit code 1.

@@ -1,0 +1,27 @@
+
+> portfolio@0.1.0 build C:\Users\razin\Desktop\minecraft-portfolio-website
+> next build
+
+   Γû▓ Next.js 16.0.10 (Turbopack)
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 5.0s
+   Skipping validation of types
+   Collecting page data using 15 workers ...
+   Generating static pages using 15 workers (0/4) ...
+   Generating static pages using 15 workers (1/4) 
+   Generating static pages using 15 workers (2/4) 
+   Generating static pages using 15 workers (3/4) 
+ Γ£ô Generating static pages using 15 workers (4/4) in 1504.9ms
+   Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γöö ╞Æ /api/contact
+
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+
