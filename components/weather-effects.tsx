@@ -17,8 +17,6 @@ export function WeatherEffects() {
 
     useEffect(() => {
         if (biome === "snow") {
-            // Generate static set of snowflakes for performance
-            // We act like a particle system but using CSS/Framer keyframes for loop
             const flakes = Array.from({ length: 50 }).map((_, i) => ({
                 id: i,
                 x: Math.random() * 100, // %

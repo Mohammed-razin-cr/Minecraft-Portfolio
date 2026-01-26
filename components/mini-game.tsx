@@ -8,58 +8,93 @@ import { useSound } from "@/contexts/sound-context"
 const GRID_SIZE = 5
 const TOTAL_BLOCKS = GRID_SIZE * GRID_SIZE
 
-// Block types
 const BLOCKS = {
     DIRT: "#8B6914",
     STONE: "#7F7F7F",
     COAL: "#1C1C1C",
-    DIAMOND_ORE: "#00CED1"
+    DIAMOND_ORE: "#00CED1",
+    CREEPER: "#38CD38",
+    TNT: "#DB2B2B"
 }
+
+type GameState = "PLAYING" | "WON" | "LOST"
 
 export function BlockBreakerGame() {
     const [grid, setGrid] = useState<string[]>([])
-    const [foundDiamond, setFoundDiamond] = useState(false)
+    const [gameState, setGameState] = useState<GameState>("PLAYING")
     const [isOpen, setIsOpen] = useState(false)
+    const [moves, setMoves] = useState(0)
 
     const { unlockAchievement } = useAchievement()
     const { playClick, playSuccess } = useSound()
 
-    // Initialize game
     const resetGame = useCallback(() => {
         const newGrid = Array(TOTAL_BLOCKS).fill("DIRT")
-        // Add some random ores
-        for (let i = 0; i < 5; i++) {
-            newGrid[Math.floor(Math.random() * TOTAL_BLOCKS)] = "STONE"
+
+        const placeRandom = (type: string, count: number) => {
+            for (let i = 0; i < count; i++) {
+                let idx
+                do {
+                    idx = Math.floor(Math.random() * TOTAL_BLOCKS)
+                } while (newGrid[idx] !== "DIRT")
+                newGrid[idx] = type
+            }
         }
-        for (let i = 0; i < 3; i++) {
-            newGrid[Math.floor(Math.random() * TOTAL_BLOCKS)] = "COAL"
-        }
-        // One diamond
-        const diamondIndex = Math.floor(Math.random() * TOTAL_BLOCKS)
-        newGrid[diamondIndex] = "DIAMOND_ORE"
+
+        placeRandom("STONE", 5)
+        placeRandom("COAL", 4)
+        placeRandom("CREEPER", 3)
+        placeRandom("TNT", 1)
+        placeRandom("DIAMOND_ORE", 1)
 
         setGrid(newGrid)
-        setFoundDiamond(false)
+        setGameState("PLAYING")
+        setMoves(0)
     }, [])
 
     useEffect(() => {
-        resetGame()
-    }, [resetGame])
+        if (isOpen) {
+            resetGame()
+        }
+    }, [isOpen, resetGame])
 
     const handleBreak = (index: number) => {
-        if (!grid[index]) return // Already broken
+        if (gameState !== "PLAYING" || !grid[index]) return
 
         playClick()
+        setMoves(prev => prev + 1)
 
-        if (grid[index] === "DIAMOND_ORE") {
-            setFoundDiamond(true)
+        const blockType = grid[index]
+
+        if (blockType === "DIAMOND_ORE") {
+            setGameState("WON")
             playSuccess()
-            unlockAchievement("monster_hunter") // Or a new achievement "miner"
-            // Let's assume reuse for now or add "miner" later
+            unlockAchievement("monster_hunter")
+        } else if (blockType === "CREEPER") {
+            setGameState("LOST")
+        } else if (blockType === "TNT") {
+            const newGrid = [...grid]
+            const row = Math.floor(index / GRID_SIZE)
+            const col = index % GRID_SIZE
+
+            for (let r = row - 1; r <= row + 1; r++) {
+                for (let c = col - 1; c <= col + 1; c++) {
+                    if (r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE) {
+                        const idx = r * GRID_SIZE + c
+                        if (newGrid[idx] === "DIAMOND_ORE") {
+                        } else if (newGrid[idx] === "CREEPER") {
+                        }
+                        newGrid[idx] = ""
+                    }
+                }
+            }
+            newGrid[index] = ""
+            setGrid(newGrid)
+            return
         }
 
         const newGrid = [...grid]
-        newGrid[index] = "" // Broken
+        newGrid[index] = ""
         setGrid(newGrid)
     }
 
@@ -69,9 +104,9 @@ export function BlockBreakerGame() {
                 onClick={() => setIsOpen(true)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="mt-4 border-4 border-[#373737] bg-[#5D8C3C] px-6 py-2 text-white uppercase tracking-wider block mx-auto"
+                className="mt-4 border-4 border-b-8 border-r-8 border-[#373737] bg-[#5D8C3C] px-6 py-2 text-white uppercase tracking-wider block mx-auto font-bold shadow-lg active:border-b-4 active:border-r-4 active:mt-5 transition-all"
             >
-                🎮 Play Mini Game
+                🎮 Play Mine-Sweeper
             </motion.button>
 
             <AnimatePresence>
@@ -81,61 +116,87 @@ export function BlockBreakerGame() {
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.9, opacity: 0 }}
-                            className="bg-[#C6C6C6] border-4 border-[#373737] p-4 max-w-sm w-full shadow-2xl relative"
+                            className="bg-[#C6C6C6] border-4 border-white outline outline-4 outline-[#373737] p-4 max-w-sm w-full shadow-2xl relative"
                         >
-                            {/* Close Button */}
-                            <button
-                                onClick={() => setIsOpen(false)}
-                                className="absolute top-2 right-2 text-[#373737] hover:text-red-600 font-bold"
-                            >
-                                ✖
-                            </button>
-
-                            <h2 className="text-xl text-center mb-4 uppercase tracking-wider text-[#373737]">
-                                Find the Diamond! 💎
-                            </h2>
+                            <div className="flex justify-between items-center mb-4 bg-[#373737] p-2 text-white border-b-4 border-[#1a1a1a]">
+                                <span className="font-bold tracking-wider">MINING...</span>
+                                <div className="flex gap-4">
+                                    <span>Moves: {moves}</span>
+                                    <button
+                                        onClick={() => setIsOpen(false)}
+                                        className="text-red-400 hover:text-red-600 font-bold"
+                                    >
+                                        ✖
+                                    </button>
+                                </div>
+                            </div>
 
                             <div
-                                className="grid grid-cols-5 gap-1 bg-[#373737] p-2 border-2 border-[#8B8B8B]"
+                                className="grid grid-cols-5 gap-1 bg-[#222] p-2 border-4 border-[#555] shadow-inner"
                                 style={{ aspectRatio: "1/1" }}
                             >
                                 {grid.map((blockType, i) => (
                                     <motion.button
                                         key={i}
                                         onClick={() => handleBreak(i)}
-                                        disabled={!blockType}
-                                        whileHover={blockType ? { scale: 1.1, zIndex: 10 } : {}}
-                                        whileTap={blockType ? { scale: 0.9 } : {}}
+                                        disabled={!blockType || gameState !== "PLAYING"}
+                                        whileHover={blockType && gameState === "PLAYING" ? { scale: 1.1, zIndex: 10 } : {}}
+                                        whileTap={blockType && gameState === "PLAYING" ? { scale: 0.9 } : {}}
                                         className="w-full h-full relative"
                                     >
                                         {blockType ? (
                                             <div
-                                                className="w-full h-full block-shadow"
+                                                className="w-full h-full"
                                                 style={{
                                                     backgroundColor: BLOCKS[blockType as keyof typeof BLOCKS] || BLOCKS.DIRT,
-                                                    border: "2px solid rgba(0,0,0,0.2)"
+                                                    boxShadow: "inset 4px 4px 0px rgba(255,255,255,0.2), inset -4px -4px 0px rgba(0,0,0,0.2)",
+                                                    imageRendering: "pixelated"
                                                 }}
                                             />
                                         ) : (
-                                            <div className="w-full h-full bg-[#1a1a1a] opacity-50" />
+                                            <div className="w-full h-full bg-[#000] opacity-20" />
+                                        )}
+
+                                        {blockType && (
+                                            <div className="absolute inset-0 bg-[#5D8C3C] border-2 border-[#6aa146]"
+                                                style={{
+                                                    boxShadow: "inset 4px 4px 0px rgba(255,255,255,0.2), inset -4px -4px 0px rgba(0,0,0,0.2)"
+                                                }}
+                                            />
                                         )}
                                     </motion.button>
                                 ))}
                             </div>
 
-                            {foundDiamond && (
+                            {gameState === "WON" && (
                                 <motion.div
-                                    initial={{ y: 20, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    className="mt-4 text-center p-2 bg-[#8B6914] text-white border-2 border-[#373737]"
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    className="absolute inset-0 flex items-center justify-center bg-black/60 z-20"
                                 >
-                                    <p className="font-bold">🎉 DIAMOND FOUND!</p>
-                                    <button
-                                        onClick={resetGame}
-                                        className="mt-2 text-xs underline hover:text-yellow-200"
-                                    >
-                                        Play Again
-                                    </button>
+                                    <div className="bg-[#373737] p-6 border-4 border-white text-center">
+                                        <h3 className="text-2xl text-yellow-400 font-bold mb-2">💎 DIAMOND! 💎</h3>
+                                        <p className="text-white mb-4">You found it in {moves} moves!</p>
+                                        <button onClick={resetGame} className="bg-[#5D8C3C] px-4 py-2 text-white border-2 border-[#1a1a1a] hover:bg-[#4a7230]">
+                                            Play Again
+                                        </button>
+                                    </div>
+                                </motion.div>
+                            )}
+
+                            {gameState === "LOST" && (
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    className="absolute inset-0 flex items-center justify-center bg-black/60 z-20"
+                                >
+                                    <div className="bg-[#373737] p-6 border-4 border-white text-center">
+                                        <h3 className="text-2xl text-green-500 font-bold mb-2">☠️ SSSssss... BOOM!</h3>
+                                        <p className="text-white mb-4">You hit a Creeper!</p>
+                                        <button onClick={resetGame} className="bg-[#DB2B2B] px-4 py-2 text-white border-2 border-[#1a1a1a] hover:bg-[#b02222]">
+                                            Try Again
+                                        </button>
+                                    </div>
                                 </motion.div>
                             )}
                         </motion.div>

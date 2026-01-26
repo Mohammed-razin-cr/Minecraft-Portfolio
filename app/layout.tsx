@@ -16,7 +16,7 @@ const vt323 = VT323({
 })
 
 export const metadata: Metadata = {
-  title: "Pixel Portfolio | Minecraft-Style Developer Portfolio",
+  title: "Mohammed Razin CR | Minecraft-Style Developer Portfolio",
   description: "An immersive Minecraft-inspired portfolio showcasing creative development skills",
   generator: "v0.app",
   icons: {

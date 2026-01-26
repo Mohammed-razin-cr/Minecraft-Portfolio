@@ -152,10 +152,11 @@
     @apply border-border outline-ring/50;
     image-rendering: pixelated;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  
+
   /* Smooth scroll behavior */
   html {
     scroll-behavior: smooth;
@@ -180,32 +181,34 @@
 
 /* Inventory slot style */
 .inventory-slot {
-  background: linear-gradient(
-    135deg,
-    #373737 0%,
-    #373737 2px,
-    #8b8b8b 2px,
-    #8b8b8b calc(100% - 2px),
-    #ffffff calc(100% - 2px)
-  );
+  background: linear-gradient(135deg,
+      #373737 0%,
+      #373737 2px,
+      #8b8b8b 2px,
+      #8b8b8b calc(100% - 2px),
+      #ffffff calc(100% - 2px));
   box-shadow: inset 2px 2px 0 0 #373737, inset -2px -2px 0 0 #ffffff;
 }
 
 /* Smooth transitions for interactive elements */
-button, a, input, select, textarea {
+button,
+a,
+input,
+select,
+textarea {
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* GPU-accelerated hover effects */
-button:hover, a:hover {
+/* GPU-accelerated hover effects - Removed to avoid conflicts with Framer Motion */
+/* button:hover, a:hover {
   transform: translateY(-2px);
 }
 
 button:active, a:active {
   transform: translateY(0);
-}
+} */
 
 /* Scrollbar styling with smooth transitions */
 ::-webkit-scrollbar {
@@ -236,6 +239,7 @@ button:active, a:active {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -252,6 +256,7 @@ button:active, a:active {
     transform: scale(0.95);
     opacity: 0;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -264,6 +269,7 @@ button:active, a:active {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -272,7 +278,7 @@ button:active, a:active {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   /* Remove will-change for reduced motion */
   * {
     will-change: auto !important;

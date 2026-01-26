@@ -16,16 +16,24 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = NAV_ITEMS.map((item) => document.getElementById(item.id))
-      const scrollPosition = window.scrollY + window.innerHeight / 3
+    let ticking = false
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i]
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(NAV_ITEMS[i].id)
-          break
-        }
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const sections = NAV_ITEMS.map((item) => document.getElementById(item.id))
+          const scrollPosition = window.scrollY + window.innerHeight / 3
+
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const section = sections[i]
+            if (section && section.offsetTop <= scrollPosition) {
+              setActiveSection(NAV_ITEMS[i].id)
+              break
+            }
+          }
+          ticking = false
+        })
+        ticking = true
       }
     }
 
