@@ -104,13 +104,13 @@ export function StoneSection() {
             className="h-6 w-6 sm:h-8 sm:w-8 flex-shrink-0"
             style={{
               backgroundColor: i % 4 === 0 ? "#8B6914" : "#7F7F7F",
-              marginTop: i % 3 === 0 ? "-3px" : "0",
+              marginTop: i % 5 === 0 ? "-3px" : "0",
             }}
           />
         ))}
       </div>
 
-      <div className="container mx-auto px-4 py-12 sm:py-16 md:py-20">
+      <div className="container mx-auto px-4 pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-20">
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={isInView ? { x: 0, opacity: 1 } : {}}

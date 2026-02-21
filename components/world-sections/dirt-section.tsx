@@ -35,7 +35,7 @@ export function DirtSection() {
         ))}
       </div>
 
-      <div className="container mx-auto px-4 py-12 sm:py-16 md:py-20 pb-20 sm:pb-24 md:pb-32">
+      <div className="container mx-auto px-4 pt-16 sm:pt-20 md:pt-24 pb-20 sm:pb-24 md:pb-32">
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={isInView ? { x: 0, opacity: 1 } : {}}

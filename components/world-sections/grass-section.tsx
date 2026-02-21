@@ -31,14 +31,14 @@ export function GrassSection() {
             key={i}
             className="h-6 w-6 sm:h-8 sm:w-8 flex-shrink-0 block-shadow transition-colors duration-700"
             style={{
-              marginTop: Math.random() > 0.7 ? "-6px" : "0",
+              marginTop: i % 3 === 0 ? "-4px" : "0",
               backgroundColor: colors.grass
             }}
           />
         ))}
       </div>
 
-      <div className="container mx-auto px-4 py-12 sm:py-16 md:py-20 pt-[18%] sm:pt-[20%]">
+      <div className="container mx-auto px-4 pb-12 sm:pb-16 md:pb-20 pt-24 sm:pt-28 md:pt-32 lg:pt-36">
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={isInView ? { x: 0, opacity: 1 } : {}}
@@ -75,9 +75,10 @@ export function GrassSection() {
                   my BCA and am currently pursuing my Master of Computer Applications (MCA).
                 </p>
                 <p className="text-base sm:text-lg leading-relaxed">
-                  I&apos;m skilled in frontend technologies and passionate about creating beautiful, functional websites
-                  that provide exceptional user experiences. When I&apos;m not coding, I enjoy traveling, video editing,
-                  gaming, and contributing to open-source projects.
+                  Beyond coding, I&apos;m passionate about visual storytelling — I shoot and edit videos using my
+                  phone, and love capturing moments through phone photography. Whether it&apos;s a cinematic reel,
+                  a travel vlog, or a candid street shot, creativity is always with me. I also enjoy gaming
+                  and contributing to open-source projects.
                 </p>
               </div>
             </div>

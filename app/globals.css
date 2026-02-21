@@ -150,7 +150,6 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    image-rendering: pixelated;
   }
 
   body {
@@ -161,6 +160,16 @@
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* High quality rendering for photography */
+.high-quality {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* Pixel-perfect rendering */

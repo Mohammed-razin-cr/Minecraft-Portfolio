@@ -82,10 +82,26 @@ const SKILLS: Skill[] = [
   },
   {
     id: "video",
-    name: "Video Edit",
+    name: "Video Editing",
     icon: "🎬",
+    level: 85,
+    description: "Editing videos on mobile — cuts, transitions, colour grading & storytelling for reels and YouTube content",
+    category: "design",
+  },
+  {
+    id: "videography",
+    name: "Videography",
+    icon: "🎥",
+    level: 82,
+    description: "Shooting cinematic footage using smartphones — composition, framing, movement and lighting techniques",
+    category: "design",
+  },
+  {
+    id: "photography",
+    name: "Photography",
+    icon: "📸",
     level: 80,
-    description: "Video editing and content creation",
+    description: "Phone photography — portrait, landscape and street shots with attention to light, angle and mood",
     category: "design",
   },
   {
@@ -148,11 +164,10 @@ export function InventorySkills() {
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleSkillClick(skill)}
-                  className={`inventory-slot relative flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center text-lg sm:text-2xl border-2 transition-colors ${
-                    selectedSkill?.id === skill.id
+                  className={`inventory-slot relative flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center text-lg sm:text-2xl border-2 transition-colors ${selectedSkill?.id === skill.id
                       ? "border-[#FF6B00] bg-[#FF6B00]"
                       : "border-[#373737] bg-[#8B6914]"
-                  }`}
+                    }`}
                   aria-label={`${skill.name} skill, level ${skill.level}`}
                 >
                   <span className="relative z-10">{skill.icon}</span>
@@ -218,9 +233,8 @@ export function InventorySkills() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveHotbarSlot(index)}
-              className={`inventory-slot relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center text-base sm:text-lg border-2 transition-colors ${
-                activeHotbarSlot === index ? "border-[#FFD700] ring-2 ring-[#FFD700]" : "border-[#373737] bg-[#5D8C3C]"
-              }`}
+              className={`inventory-slot relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center text-base sm:text-lg border-2 transition-colors ${activeHotbarSlot === index ? "border-[#FFD700] ring-2 ring-[#FFD700]" : "border-[#373737] bg-[#5D8C3C]"
+                }`}
               aria-label={skill ? `Hotbar slot ${index + 1}: ${skill.name}` : `Empty hotbar slot ${index + 1}`}
             >
               {skill ? (

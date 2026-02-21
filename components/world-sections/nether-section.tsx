@@ -6,7 +6,9 @@ import { motion, useInView } from "framer-motion"
 import { useRef, useState } from "react"
 import { SocialShare } from "@/components/social-share"
 import { DownloadResume } from "@/components/download-resume"
+import { ResumeViewer } from "@/components/resume-viewer"
 import { BlockBreakerGame } from "@/components/mini-game"
+import { AestheticQuote } from "@/components/aesthetic-quote"
 
 export function NetherSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -97,7 +99,7 @@ export function NetherSection() {
         </div>
       </div>
 
-      <div className="container relative z-10 mx-auto px-4 py-12 sm:py-16 md:py-20">
+      <div className="container relative z-10 mx-auto px-4 pt-16 sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-20">
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={isInView ? { x: 0, opacity: 1 } : {}}
@@ -152,8 +154,9 @@ export function NetherSection() {
               Chat on WhatsApp
             </motion.a>
 
-            <div className="mt-4 flex justify-center">
+            <div className="mt-4 flex flex-wrap justify-center gap-3">
               <DownloadResume />
+              <ResumeViewer />
             </div>
           </motion.div>
 
@@ -309,6 +312,10 @@ export function NetherSection() {
             ))}
           </div>
         </motion.div>
+        {/* Aesthetic Quote section before footer */}
+        <div className="mt-12 border-t-2 border-[#FF6B00]/30 py-8">
+          <AestheticQuote />
+        </div>
       </div>
 
       {/* Footer */}

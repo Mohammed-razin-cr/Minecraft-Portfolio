@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import { MinecraftBlock3D } from "@/components/minecraft-block-3d"
+import { MinecraftSplash } from "@/components/minecraft-splash"
 import { useTheme, themeColors } from "@/contexts/theme-context"
 
 export function SkySection() {
@@ -86,14 +87,14 @@ export function SkySection() {
         {/* Subtitle */}
         <div className="border-4 border-[#373737] bg-[#1a1a2e] p-3 sm:p-4 shadow-lg">
           <p className="text-base sm:text-lg md:text-xl text-white" style={{ letterSpacing: "0.1em" }}>
-            Full Stack Web Developer & Cyber Security Expert
+            FULL STACK WEB DEV &nbsp;|&nbsp; CYBER SECURITY EXPERT &nbsp;|&nbsp; VIDEO EDITOR &nbsp;|&nbsp; PHOTOGRAPHER
           </p>
         </div>
 
         {/* Description */}
         <p className="mt-4 max-w-xs sm:max-w-sm md:max-w-lg border-2 border-[#373737] bg-[#C6C6C6]/90 p-2 sm:p-3 text-xs sm:text-sm md:text-base text-[#373737]">
-          I create stellar web experiences with modern technologies. Building interfaces that are both beautiful and
-          functional.
+          I build stellar web experiences with modern tech &mdash; and tell visual stories through
+          video editing &amp; phone photography.
         </p>
 
         {/* Buttons */}

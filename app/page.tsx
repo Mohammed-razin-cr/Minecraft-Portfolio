@@ -9,6 +9,7 @@ import { DirtSection } from "@/components/world-sections/dirt-section"
 import { StoneSection } from "@/components/world-sections/stone-section"
 import { NetherSection } from "@/components/world-sections/nether-section"
 import { BlockLoader } from "@/components/block-loader"
+import { BackToTop } from "@/components/back-to-top"
 
 const SECTIONS = ["home", "about", "skills", "projects", "contact"]
 
@@ -48,6 +49,7 @@ export default function Home() {
         <StoneSection />
         <NetherSection />
       </main>
+      <BackToTop />
     </>
   )
 }

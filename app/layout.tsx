@@ -15,6 +15,13 @@ const vt323 = VT323({
   variable: "--font-minecraft",
 })
 
+import { Crimson_Pro } from "next/font/google"
+const crimson = Crimson_Pro({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  style: "italic"
+})
+
 export const metadata: Metadata = {
   title: "Mohammed Razin CR | Minecraft-Style Developer Portfolio",
   description: "An immersive Minecraft-inspired portfolio showcasing creative development skills",
@@ -44,7 +51,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${vt323.variable} font-sans antialiased`}>
+      <body className={`${vt323.variable} ${crimson.variable} font-sans antialiased`}>
         <ThemeProvider>
           <SoundProvider>
             <AchievementProvider>
