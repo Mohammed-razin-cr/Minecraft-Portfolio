@@ -3,7 +3,6 @@
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import { MinecraftBlock3D } from "@/components/minecraft-block-3d"
-import { MinecraftSplash } from "@/components/minecraft-splash"
 import { useTheme, themeColors } from "@/contexts/theme-context"
 
 export function SkySection() {
