@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 import { BackToTop } from "@/components/back-to-top"
 import { AnimatedBackground } from "@/components/animated-background"
 
@@ -48,7 +49,7 @@ const PHOTOS: Photo[] = [
 const VIDEOS: Video[] = [
     {
         id: "v1",
-        src: "/gallery/IMG_2411.MOV",
+        src: "/gallery/IMG_2411.mp4",
         caption: "Hill Station Morning Vibes",
         tag: "Travel ✈️",
         type: "reel",
@@ -56,7 +57,7 @@ const VIDEOS: Video[] = [
     },
     {
         id: "v2",
-        src: "/gallery/IMG_3338.MOV",
+        src: "/gallery/IMG_3338.mp4",
         caption: "Cinematic Forest Stream",
         tag: "Cinematic 🎬",
         type: "reel",
@@ -64,7 +65,7 @@ const VIDEOS: Video[] = [
     },
     {
         id: "v3",
-        src: "/gallery/IMG_3790.MOV",
+        src: "/gallery/IMG_3790.mp4",
         caption: "Coffee Estate Walkthrough",
         tag: "Nature 🌿",
         type: "reel",
@@ -72,7 +73,7 @@ const VIDEOS: Video[] = [
     },
     {
         id: "v4",
-        src: "/gallery/IMG_4531.MOV",
+        src: "/gallery/IMG_4531.mp4",
         caption: "Rainy Day Loops",
         tag: "Nature 🌿",
         type: "reel",
@@ -80,35 +81,35 @@ const VIDEOS: Video[] = [
     },
     {
         id: "v5",
-        src: "/gallery/IMG_4533.MOV",
+        src: "/gallery/IMG_4533.mp4",
         caption: "Winding Mountain Drive",
         tag: "Vlog 📹",
         type: "video"
     },
     {
         id: "v6",
-        src: "/gallery/IMG_4895.MOV",
+        src: "/gallery/IMG_4895.mp4",
         caption: "Monsoon Moods",
         tag: "Cinematic 🎬",
         type: "video"
     },
     {
         id: "v7",
-        src: "/gallery/IMG_5176.MOV",
+        src: "/gallery/IMG_5176.mp4",
         caption: "Foggy Peaks Drone-style",
         tag: "Landscape 🌄",
         type: "video"
     },
     {
         id: "v8",
-        src: "/gallery/IMG_5563.MOV",
+        src: "/gallery/IMG_5563.mp4",
         caption: "Traditional Marriage Vibes",
         tag: "Marriage 💍",
         type: "video"
     },
     {
         id: "v9",
-        src: "/gallery/IMG_7931.MOV",
+        src: "/gallery/IMG_7931.mp4",
         caption: "Golden Hour Cinematic Flight",
         tag: "Sunset 🌅",
         type: "video"
@@ -275,11 +276,14 @@ function GalleryItem({ src, caption, tag, index, onClick }: { src: string, capti
             <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
             <div className="absolute inset-x-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
 
-            <img
+            <Image
                 src={src}
                 alt={caption}
-                loading="lazy"
-                className="h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 high-quality group-hover:scale-105"
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 high-quality group-hover:scale-105"
+                loading={index < 8 ? "eager" : "lazy"}
+                priority={index < 4}
             />
 
             <div className="absolute inset-0 z-10 flex flex-col items-center justify-end bg-gradient-to-t from-black via-black/20 to-transparent p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -298,6 +302,7 @@ function GalleryItem({ src, caption, tag, index, onClick }: { src: string, capti
 
 function VideoItem({ video, index, onClick }: { video: Video, index: number, onClick: () => void }) {
     const videoRef = useRef<HTMLVideoElement>(null)
+    const [isPreviewLoading, setIsPreviewLoading] = useState(false)
 
     return (
         <motion.div
@@ -308,10 +313,18 @@ function VideoItem({ video, index, onClick }: { video: Video, index: number, onC
             transition={{ delay: index * 0.05, duration: 0.4 }}
             whileHover={{ y: -10, scale: 1.02 }}
             onClick={onClick}
-            onMouseEnter={() => videoRef.current?.play()}
+            onMouseEnter={() => {
+                if (videoRef.current) {
+                    setIsPreviewLoading(true)
+                    videoRef.current.play().catch(() => setIsPreviewLoading(false))
+                }
+            }}
             onMouseLeave={() => {
-                videoRef.current?.pause()
-                if (videoRef.current) videoRef.current.currentTime = 0
+                if (videoRef.current) {
+                    videoRef.current.pause()
+                    videoRef.current.currentTime = 0
+                    setIsPreviewLoading(false)
+                }
             }}
             className="group relative overflow-hidden border border-white/10 bg-black/40 backdrop-blur-sm cursor-pointer shadow-2xl transition-all duration-500 hover:border-pink-500/50"
             style={{ willChange: "transform", aspectRatio: video.type === "reel" ? "9/16" : "1/1" }}
@@ -324,9 +337,17 @@ function VideoItem({ video, index, onClick }: { video: Video, index: number, onC
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="none"
+                onPlaying={() => setIsPreviewLoading(false)}
                 className="h-full w-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 high-quality"
             />
+
+            {/* Preview Loading Spinner */}
+            {isPreviewLoading && (
+                <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/20">
+                    <div className="h-6 w-6 border-2 border-pink-500/30 border-t-pink-500 rounded-full animate-spin" />
+                </div>
+            )}
 
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-end bg-gradient-to-t from-black via-black/20 to-transparent p-5">
                 <span className="text-[9px] font-black uppercase tracking-[0.3em] text-pink-400 mb-2">{video.tag}</span>
@@ -378,8 +399,14 @@ function PhotoLightbox({ photo, onClose }: { photo: Photo | null, onClose: () =>
                                 <span className="text-lg">✕</span>
                             </button>
                         </div>
-                        <div className="flex-1 overflow-hidden p-8 flex items-center justify-center">
-                            <img src={photo.src} alt={photo.caption} className="max-h-full max-w-full object-contain high-quality shadow-[0_0_50px_rgba(0,0,0,0.5)]" />
+                        <div className="flex-1 overflow-hidden p-8 flex items-center justify-center relative">
+                            <Image
+                                src={photo.src}
+                                alt={photo.caption}
+                                fill
+                                className="object-contain high-quality shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+                                sizes="90vw"
+                            />
                         </div>
                         <div className="border-t border-white/5 bg-white/5 px-8 py-4 flex justify-between items-center text-[9px] font-bold uppercase tracking-widest text-white/30">
                             <span>Tag: {photo.tag}</span>
@@ -393,6 +420,12 @@ function PhotoLightbox({ photo, onClose }: { photo: Photo | null, onClose: () =>
 }
 
 function VideoLightbox({ video, onClose }: { video: Video | null, onClose: () => void }) {
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        if (video) setIsLoading(true)
+    }, [video])
+
     return (
         <AnimatePresence>
             {video && (
@@ -422,12 +455,20 @@ function VideoLightbox({ video, onClose }: { video: Video | null, onClose: () =>
                                 <span className="text-lg">✕</span>
                             </button>
                         </div>
-                        <div className="flex-1 overflow-hidden bg-black flex items-center justify-center">
+                        <div className="flex-1 overflow-hidden bg-black flex items-center justify-center relative">
+                            {isLoading && (
+                                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm">
+                                    <div className="h-12 w-12 border-4 border-pink-500/30 border-t-pink-500 rounded-full animate-spin mb-4" />
+                                    <p className="text-[10px] uppercase tracking-[0.3em] text-pink-400 font-bold animate-pulse">Loading High-res Video...</p>
+                                    <p className="text-[8px] uppercase tracking-[0.2em] text-white/40 mt-2 text-center max-w-[200px]">Large files may take a moment to buffer on slow connections</p>
+                                </div>
+                            )}
                             <video
                                 src={video.src}
                                 controls
                                 autoPlay
-                                className="max-h-full max-w-full"
+                                onLoadedData={() => setIsLoading(false)}
+                                className={`max-h-full max-w-full transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
                             />
                         </div>
                         <div className="border-t border-white/5 bg-white/5 px-8 py-4 flex justify-between items-center text-[9px] font-bold uppercase tracking-widest text-white/30">
