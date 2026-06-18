@@ -10,6 +10,7 @@ import { StoneSection } from "@/components/world-sections/stone-section"
 import { NetherSection } from "@/components/world-sections/nether-section"
 import { BlockLoader } from "@/components/block-loader"
 import { BackToTop } from "@/components/back-to-top"
+import { RedstoneCircuits } from "@/components/redstone-circuits"
 
 const SECTIONS = ["home", "about", "skills", "projects", "contact"]
 
@@ -40,6 +41,7 @@ export default function Home() {
   return (
     <>
       {isLoading && <BlockLoader onComplete={() => setIsLoading(false)} />}
+      <RedstoneCircuits />
       <Navigation />
       <ThemeControls />
       <main className="relative">

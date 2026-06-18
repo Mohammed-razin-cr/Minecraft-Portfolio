@@ -68,30 +68,6 @@ export function AchievementProvider({ children }: { children: React.ReactNode })
     return (
         <AchievementContext.Provider value={{ unlockAchievement }}>
             {children}
-
-            {/* Toast UI */}
-            <AnimatePresence>
-                {current && (
-                    <motion.div
-                        initial={{ y: 100, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: 100, opacity: 0 }}
-                        className="fixed bottom-4 right-4 z-[100] w-80 font-minecraft"
-                    >
-                        <div className="bg-[#212121] border-2 border-white p-1 text-white shadow-lg flex items-center gap-4 relative overflow-hidden">
-                            {/* Minecraft Achievement Style */}
-                            <div className="bg-[#373737] p-2 border-2 border-[#8B8B8B]">
-                                <span className="text-2xl">{current.icon}</span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-yellow-400 text-sm font-bold tracking-wider">Achievement Get!</span>
-                                <span className="text-white text-md">{current.title}</span>
-                                <span className="text-gray-400 text-xs">{current.description}</span>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </AchievementContext.Provider>
     )
 }
