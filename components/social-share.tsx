@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useState } from "react"
 
 interface ShareButton {
     name: string
@@ -45,10 +46,17 @@ export function SocialShare() {
         window.open(url, '_blank', 'width=600,height=400')
     }
 
-    const handleCopyLink = () => {
-        navigator.clipboard.writeText(shareUrl)
-        // You could add a toast notification here
-        alert("Link copied to clipboard! 📋")
+    const [copyStatus, setCopyStatus] = useState<"copied" | "failed" | null>(null)
+
+    const handleCopyLink = async () => {
+        try {
+            await navigator.clipboard.writeText(shareUrl)
+            setCopyStatus('copied')
+            window.setTimeout(() => setCopyStatus(null), 3000)
+        } catch {
+            setCopyStatus('failed')
+            window.setTimeout(() => setCopyStatus(null), 3000)
+        }
     }
 
     return (
@@ -83,6 +91,11 @@ export function SocialShare() {
                     🔗
                 </motion.button>
             </div>
+            {copyStatus && (
+                <div className="mt-2 rounded-md border border-[#373737] bg-[#C6C6C6] px-3 py-2 text-xs uppercase tracking-wider text-[#373737] shadow-sm" role="status" aria-live="polite">
+                    {copyStatus === 'copied' ? 'Link copied to clipboard!' : 'Unable to copy link. Please try again.'}
+                </div>
+            )}
         </div>
     )
 }

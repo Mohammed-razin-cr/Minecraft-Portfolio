@@ -21,26 +21,35 @@ export function NetherSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null)
+  const [feedbackType, setFeedbackType] = useState<"success" | "error" | null>(null)
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setFeedbackMessage(null)
+    setFeedbackType(null)
 
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formState)
+        body: JSON.stringify(formState),
       })
 
       if (response.ok) {
         setSubmitted(true)
+        setFeedbackMessage('Thanks for reaching out! I will reply shortly.')
+        setFeedbackType('success')
       } else {
-        console.error("Failed to submit")
-        alert("Something went wrong. Please try again.")
+        console.error('Failed to submit')
+        setFeedbackMessage('Something went wrong. Please try again.')
+        setFeedbackType('error')
       }
     } catch (error) {
       console.error(error)
-      alert("Failed to send message. Please check your connection.")
+      setFeedbackMessage('Failed to send message. Please check your connection.')
+      setFeedbackType('error')
     } finally {
       setIsSubmitting(false)
     }
@@ -272,6 +281,19 @@ export function NetherSection() {
                     "Send Message"
                   )}
                 </motion.button>
+
+                {feedbackMessage && (
+                  <div
+                    className={`rounded-md border-2 px-3 py-2 text-sm ${feedbackType === 'success'
+                      ? 'border-[#5D8C3C] bg-[#D6F5D6] text-[#2F5B2F]'
+                      : 'border-[#D12B2B] bg-[#F8D6D6] text-[#8B1A1A]'}
+                    `}
+                    role="status"
+                    aria-live="polite"
+                  >
+                    {feedbackMessage}
+                  </div>
+                )}
               </form>
             )}
           </motion.div>
