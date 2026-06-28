@@ -56,7 +56,7 @@ export function Navigation() {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="fixed left-4 top-1/2 z-50 hidden -translate-y-1/2 lg:block">
+      <nav role="navigation" aria-label="Primary site navigation" className="fixed left-4 top-1/2 z-50 hidden -translate-y-1/2 lg:block">
         <div className="border-2 border-[#373737] bg-[#C6C6C6] p-2">
           {NAV_ITEMS.map((item) => {
             const isActive = activeSection === item.id
@@ -67,7 +67,7 @@ export function Navigation() {
 
             if (item.href) {
               return (
-                <Link key={item.id} href={item.href}>
+                <Link key={item.id} href={item.href} aria-current={isActive ? "page" : undefined}>
                   <motion.div
                     whileHover={{ x: 6, scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -84,10 +84,12 @@ export function Navigation() {
             return (
               <motion.button
                 key={item.id}
+                type="button"
                 whileHover={{ x: 6, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 onClick={() => scrollToSection(item.id)}
+                aria-current={isActive ? "page" : undefined}
                 className={sharedClass}
                 style={{ willChange: isActive ? 'transform' : 'auto' }}
               >

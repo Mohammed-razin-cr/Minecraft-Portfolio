@@ -42,9 +42,12 @@ export default function Home() {
     <>
       {isLoading && <BlockLoader onComplete={() => setIsLoading(false)} />}
       <RedstoneCircuits />
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-black/80 px-3 py-2 text-white uppercase tracking-wider">
+        Skip to main content
+      </a>
       <Navigation />
       <ThemeControls />
-      <main className="relative">
+      <main id="main-content" className="relative">
         <SkySection />
         <GrassSection />
         <DirtSection />

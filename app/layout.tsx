@@ -23,9 +23,31 @@ const crimson = Crimson_Pro({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://mohammed-razin-cr.tech"),
   title: "Mohammed Razin CR | Minecraft-Style Developer Portfolio",
   description: "An immersive Minecraft-inspired portfolio showcasing creative development skills",
   generator: "v0.app",
+  openGraph: {
+    title: "Mohammed Razin CR | Minecraft-Style Developer Portfolio",
+    description: "An immersive Minecraft-inspired portfolio showcasing creative development skills",
+    url: "https://mohammed-razin-cr.tech",
+    siteName: "Minecraft Portfolio",
+    type: "website",
+    images: [
+      {
+        url: "/icon.svg",
+        width: 1200,
+        height: 630,
+        alt: "Minecraft style portfolio by Mohammed Razin CR",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mohammed Razin CR | Minecraft-Style Developer Portfolio",
+    description: "An immersive Minecraft-inspired portfolio showcasing creative development skills",
+    creator: "@mohammed_razin_c",
+  },
   icons: {
     icon: [
       {
